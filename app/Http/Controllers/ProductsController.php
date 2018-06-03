@@ -20,7 +20,19 @@ class ProductsController extends Controller
 
     public function index()
     {
-        $products = Product::all();
+        $params = [
+          'index' => Product::INDEX,
+          'type' => 'default',
+          'body' => '{"query" : {"match_all" : {} } }',
+        ];
+
+        $response = $this->elasticsearch->search($params);
+
+        $products = [];
+        foreach ($response['hits']['hits'] as $item) {
+            array_push($products, $item['_source']);
+        }
+
         return response()->json($products, 200);
     }
 
