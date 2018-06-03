@@ -14,3 +14,13 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api'], function ($router) {
+    $router->group(['prefix' => 'products'], function ($router) {
+        $router->get('/', 'ProductsController@index');
+        $router->post('/', 'ProductsController@store');
+        $router->get('/{id}', 'ProductsController@show');
+        $router->patch('/{id}', 'ProductsController@update');
+        $router->delete('/{id}', 'ProductsController@destroy');
+    });
+});

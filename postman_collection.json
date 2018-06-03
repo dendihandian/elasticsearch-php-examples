@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "87a9d09c-b871-4ecc-aa38-c7ba01f4169e",
+		"name": "Lumen Elasticsearch Example",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"description": "",
+			"item": [
+				{
+					"name": "Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://lumen-elasticsearch.ved/api/products",
+							"protocol": "http",
+							"host": [
+								"lumen-elasticsearch",
+								"ved"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://lumen-elasticsearch.ved/api/products/1",
+							"protocol": "http",
+							"host": [
+								"lumen-elasticsearch",
+								"ved"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Monster Cookies\",\n  \"stock\": 8,\n  \"price\": 200,\n  \"description\": \"Delicious cookies\"\n}"
+						},
+						"url": {
+							"raw": "http://lumen-elasticsearch.ved/api/products",
+							"protocol": "http",
+							"host": [
+								"lumen-elasticsearch",
+								"ved"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Butter Cookies\",\n  \"stock\": 7,\n  \"price\": 150,\n  \"description\": \"delicious butter cookies \"\n}"
+						},
+						"url": {
+							"raw": "http://lumen-elasticsearch.ved/api/products/1",
+							"protocol": "http",
+							"host": [
+								"lumen-elasticsearch",
+								"ved"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://lumen-elasticsearch.ved/api/products/10",
+							"protocol": "http",
+							"host": [
+								"lumen-elasticsearch",
+								"ved"
+							],
+							"path": [
+								"api",
+								"products",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Home",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Dendi Handian\",\n  \"email\": \"dendihandian@gmail.com\",\n  \"password\" : \"abcd\"\n}"
+				},
+				"url": {
+					"raw": "http://lumen-elasticsearch.ved/",
+					"protocol": "http",
+					"host": [
+						"lumen-elasticsearch",
+						"ved"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
