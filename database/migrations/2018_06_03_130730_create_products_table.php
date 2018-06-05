@@ -36,6 +36,33 @@ class CreateProductsTable extends Migration
             'settings' => [
               'number_of_shards' => 2,
               'number_of_replicas' => 0
+            ],
+            'mappings' => [
+              Product::TYPE => [
+                '_source' => [
+                  'enabled' => true
+                ],
+                'properties' => [
+                  'name' => [
+                      'type' => 'keyword',
+                      // 'analyzer' => 'standard'
+                  ],
+                  'slug' => [
+                      'type' => 'keyword',
+                      // 'analyzer' => 'standard'
+                  ],
+                  'stock' => [
+                      'type' => 'integer'
+                  ],
+                  'price' => [
+                      'type' => 'integer'
+                  ],
+                  'slug' => [
+                      'type' => 'text',
+                      // 'analyzer' => 'standard'
+                  ],
+                ]
+              ]
             ]
           ]
         ];
