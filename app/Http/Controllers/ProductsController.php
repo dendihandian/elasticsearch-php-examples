@@ -15,7 +15,9 @@ class ProductsController extends Controller
      */
     public function __construct()
     {
-        $this->elasticsearch = ClientBuilder::create()->build();
+        $this->elasticsearch = ClientBuilder::create()
+          ->setHosts([env('ELASTICSEARCH_HOST')])
+          ->build();
     }
 
     public function index(Request $request)
