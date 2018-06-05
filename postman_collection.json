@@ -36,6 +36,38 @@
 					"response": []
 				},
 				{
+					"name": "Products (Search)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://lumen-elasticsearch.ved/api/products?q=nihil",
+							"protocol": "http",
+							"host": [
+								"lumen-elasticsearch",
+								"ved"
+							],
+							"path": [
+								"api",
+								"products"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "nihil"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Product",
 					"request": {
 						"method": "GET",

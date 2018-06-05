@@ -18,13 +18,28 @@ class ProductsController extends Controller
         $this->elasticsearch = ClientBuilder::create()->build();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $params = [
           'index' => Product::INDEX,
           'type' => 'default',
           'body' => '{"query" : {"match_all" : {} } }',
         ];
+
+        if ($request->has('q') && !empty($query = $request->get('q'))) {
+          $params = [
+            'index' => Product::INDEX,
+            'type'  => 'default',
+            'body'  => [
+              'query' => [
+                'multi_match' => [
+                  'query' => $query,
+                  'fields' => ['name', 'description']
+                ]
+              ]
+            ]
+          ];
+        }
 
         $response = $this->elasticsearch->search($params);
 
