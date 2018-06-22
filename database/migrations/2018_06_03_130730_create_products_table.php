@@ -44,12 +44,12 @@ class CreateProductsTable extends Migration
                 ],
                 'properties' => [
                   'name' => [
-                      'type' => 'keyword',
-                      // 'analyzer' => 'standard'
+                      'type' => 'text',
+                      'analyzer' => 'standard'
                   ],
                   'slug' => [
-                      'type' => 'keyword',
-                      // 'analyzer' => 'standard'
+                      'type' => 'text',
+                      'analyzer' => 'standard'
                   ],
                   'stock' => [
                       'type' => 'integer'
@@ -57,9 +57,9 @@ class CreateProductsTable extends Migration
                   'price' => [
                       'type' => 'integer'
                   ],
-                  'slug' => [
+                  'description' => [
                       'type' => 'text',
-                      // 'analyzer' => 'standard'
+                      'analyzer' => 'standard'
                   ],
                 ]
               ]
