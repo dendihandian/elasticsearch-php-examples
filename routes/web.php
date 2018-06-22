@@ -17,6 +17,7 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api'], function ($router) {
     $router->group(['prefix' => 'products'], function ($router) {
+        $router->get('/suggestions/{query}', 'ProductsController@suggestions');
         $router->get('/', 'ProductsController@index');
         $router->post('/', 'ProductsController@store');
         $router->get('/{id}', 'ProductsController@show');
