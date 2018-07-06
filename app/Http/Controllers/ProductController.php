@@ -6,7 +6,7 @@ use App\Models\Product;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Http\Request;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     /**
      * Create a new controller instance.
