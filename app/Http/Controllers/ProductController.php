@@ -24,14 +24,14 @@ class ProductController extends Controller
     {
         $params = [
           'index' => Product::INDEX,
-          'type' => 'default',
+          'type' => Product::TYPE,
           'body' => '{"query" : {"match_all" : {} } }',
         ];
 
         if ($request->has('q') && !empty($query = $request->get('q'))) {
           $params = [
             'index' => Product::INDEX,
-            'type'  => 'default',
+            'type'  => Product::TYPE,
             'body'  => [
               'query' => [
                 'multi_match' => [
@@ -57,7 +57,7 @@ class ProductController extends Controller
     {
         $params = [
           'index' => Product::INDEX,
-          'type' => 'default',
+          'type' => Product::TYPE,
           'id' => $id
         ];
 
@@ -81,12 +81,12 @@ class ProductController extends Controller
         // create new index
         $params = [
           'index' => Product::INDEX,
-          'type' => 'default',
+          'type' => Product::TYPE,
           'id' => $product->id,
           'body' => $product->toArray(),
         ];
 
-        $response = $elasticsearch->index($params);
+        $response = $this->elasticsearch->index($params);
 
         return response()->json($product, 201);
     }
@@ -103,24 +103,17 @@ class ProductController extends Controller
         $product->description = $input['description'];
         $product->save();
 
-        // delete old index
+        // update the document
         $params = [
           'index' => Product::INDEX,
-          'type' => 'default',
+          'type' => Product::TYPE,
           'id' => $product->id,
+          'body' => [
+            'doc'=> $product->toArray(),
+          ]
         ];
 
-        $response = $elasticsearch->delete($params);
-
-        // create new index
-        $params = [
-          'index' => Product::INDEX,
-          'type' => 'default',
-          'id' => $product->id,
-          'body' => $product->toArray(),
-        ];
-
-        $response = $elasticsearch->index($params);
+        $response = $this->elasticsearch->update($params);
 
         return response()->json($product, 200);
     }
@@ -133,11 +126,11 @@ class ProductController extends Controller
         // delete index
         $params = [
           'index' => Product::INDEX,
-          'type' => 'default',
+          'type' => Product::TYPE,
           'id' => $product->id,
         ];
 
-        $response = $elasticsearch->delete($params);
+        $response = $this->elasticsearch->delete($params);
 
         // delete product
         $product->delete();
