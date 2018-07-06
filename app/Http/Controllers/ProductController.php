@@ -22,54 +22,55 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
+        // prepare params for searching a document
         $params = [
           'index' => Product::INDEX,
           'type' => Product::TYPE,
           'body' => '{"query" : {"match_all" : {} } }',
         ];
 
-        if ($request->has('q') && !empty($query = $request->get('q'))) {
-          $params = [
-            'index' => Product::INDEX,
-            'type'  => Product::TYPE,
-            'body'  => [
-              'query' => [
-                'multi_match' => [
-                  'query' => $query,
-                  'fields' => ['name', 'description']
-                ]
-              ]
-            ]
-          ];
-        }
+        // searching a document
+        $elasticResponse = $this->elasticsearch->search($params);
 
-        $response = $this->elasticsearch->search($params);
+        // parse source only
+        $products = $this->getSources($elasticResponse);
 
-        $products = [];
-        foreach ($response['hits']['hits'] as $item) {
-            array_push($products, $item['_source']);
-        }
+        // prepare response
+        $response = [
+          'message' => 'Here is your products',
+          'data' => $products,
+        ];
 
-        return response()->json($products, 200);
+        return response()->json($response, 200);
     }
 
     public function show($id)
     {
+        // prepare params for getting a document
         $params = [
           'index' => Product::INDEX,
           'type' => Product::TYPE,
           'id' => $id
         ];
 
-        $response = $this->elasticsearch->get($params);
+        // get a document
+        $elasticResponse = $this->elasticsearch->get($params);
 
-        return response()->json($response['_source'], 200);
+        // prepare response
+        $response = [
+          'message' => 'Here is your product',
+          'data' => $elasticResponse['_source'],
+          'id' => (int) $id,
+        ];
+
+        return response()->json($response, 200);
     }
 
     public function store(Request $request)
     {
         $input = $request->all();
 
+        // create product in database
         $product = new Product;
         $product->name = $input['name'];
         $product->slug = str_slug($input['name']);
@@ -78,7 +79,7 @@ class ProductController extends Controller
         $product->description = $input['description'];
         $product->save();
 
-        // create new index
+        // prepare params for creating a document
         $params = [
           'index' => Product::INDEX,
           'type' => Product::TYPE,
@@ -86,15 +87,24 @@ class ProductController extends Controller
           'body' => $product->toArray(),
         ];
 
-        $response = $this->elasticsearch->index($params);
+        // creating a document
+        $elasticResponse = $this->elasticsearch->index($params);
 
-        return response()->json($product, 201);
+        // prepare response
+        $response = [
+          'message' => 'Successfuly created the product',
+          'data' => $product,
+          'id' => $product->id,
+        ];
+
+        return response()->json($response, 201);
     }
 
     public function update(Request $request, $id)
     {
         $input = $request->all();
 
+        // update product in database
         $product = Product::findOrFail($id);
         $product->name = $input['name'];
         $product->slug = str_slug($input['name']);
@@ -103,7 +113,7 @@ class ProductController extends Controller
         $product->description = $input['description'];
         $product->save();
 
-        // update the document
+        // prepare params for updating document
         $params = [
           'index' => Product::INDEX,
           'type' => Product::TYPE,
@@ -113,9 +123,17 @@ class ProductController extends Controller
           ]
         ];
 
-        $response = $this->elasticsearch->update($params);
+        // update the document
+        $elasticResponse = $this->elasticsearch->update($params);
 
-        return response()->json($product, 200);
+        // prepare response
+        $response = [
+          'message' => 'Successfuly updated the product',
+          'data' => $product,
+          'id' => (int) $id,
+        ];
+
+        return response()->json($response, 200);
     }
 
     public function destroy($id)
@@ -123,18 +141,57 @@ class ProductController extends Controller
         // get product from id
         $product = Product::findOrFail($id);
 
-        // delete index
+        // prepare params for deleting document
         $params = [
           'index' => Product::INDEX,
           'type' => Product::TYPE,
           'id' => $product->id,
         ];
 
-        $response = $this->elasticsearch->delete($params);
+        // delete document
+        $elasticResponse = $this->elasticsearch->delete($params);
 
-        // delete product
+        // delete product in database
         $product->delete();
 
-        return response()->json([], 200);
+        // prepare response
+        $response = [
+          'message' => 'Successfuly deleted the product',
+          'id' => (int) $id,
+        ];
+
+        return response()->json($response, 200);
+    }
+
+    public function search(Request $request, $query)
+    {
+        // prepare params for searching a document
+        $params = [
+          'index' => Product::INDEX,
+          'type'  => Product::TYPE,
+          'body'  => [
+            'query' => [
+              'multi_match' => [
+                'query' => $query,
+                'fields' => ['name', 'description']
+              ]
+            ]
+          ]
+        ];
+
+        // searching a document
+        $elasticResponse = $this->elasticsearch->search($params);
+
+        // parse source only
+        $products = $this->getSources($elasticResponse);
+
+        // prepare response
+        $response = [
+          'message' => 'Here is your product search results',
+          'data' => $products,
+          'query' => $query,
+        ];
+
+        return response()->json($response, 200);
     }
 }
