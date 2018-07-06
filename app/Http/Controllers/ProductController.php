@@ -18,14 +18,18 @@ class ProductController extends Controller
         $this->elasticsearch = ClientBuilder::create()
           ->setHosts([env('ELASTICSEARCH_HOST')])
           ->build();
+
+        $this->index = Product::INDEX;
+        $this->type = Product::TYPE;
+        $this->searchableFields = Product::SEARCHABLE_FIELDS;
     }
 
     public function index(Request $request)
     {
         // prepare params for searching a document
         $params = [
-          'index' => Product::INDEX,
-          'type' => Product::TYPE,
+          'index' => $this->index,
+          'type' => $this->type,
           'body' => '{"query" : {"match_all" : {} } }',
         ];
 
@@ -48,8 +52,8 @@ class ProductController extends Controller
     {
         // prepare params for getting a document
         $params = [
-          'index' => Product::INDEX,
-          'type' => Product::TYPE,
+          'index' => $this->index,
+          'type' => $this->type,
           'id' => $id
         ];
 
@@ -81,8 +85,8 @@ class ProductController extends Controller
 
         // prepare params for creating a document
         $params = [
-          'index' => Product::INDEX,
-          'type' => Product::TYPE,
+          'index' => $this->index,
+          'type' => $this->type,
           'id' => $product->id,
           'body' => $product->toArray(),
         ];
@@ -115,8 +119,8 @@ class ProductController extends Controller
 
         // prepare params for updating document
         $params = [
-          'index' => Product::INDEX,
-          'type' => Product::TYPE,
+          'index' => $this->index,
+          'type' => $this->type,
           'id' => $product->id,
           'body' => [
             'doc'=> $product->toArray(),
@@ -143,8 +147,8 @@ class ProductController extends Controller
 
         // prepare params for deleting document
         $params = [
-          'index' => Product::INDEX,
-          'type' => Product::TYPE,
+          'index' => $this->index,
+          'type' => $this->type,
           'id' => $product->id,
         ];
 
@@ -167,13 +171,13 @@ class ProductController extends Controller
     {
         // prepare params for searching a document
         $params = [
-          'index' => Product::INDEX,
-          'type'  => Product::TYPE,
+          'index' => $this->index,
+          'type'  => $this->type,
           'body'  => [
             'query' => [
               'multi_match' => [
                 'query' => $query,
-                'fields' => ['name', 'description']
+                'fields' => $this->searchableFields,
               ]
             ]
           ]

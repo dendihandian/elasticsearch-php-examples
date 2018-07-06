@@ -7,6 +7,9 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     protected $elasticsearch;
+    protected $index;
+    protected $type;
+    protected $searchableFields;
 
     protected function getSources($hits)
     {
