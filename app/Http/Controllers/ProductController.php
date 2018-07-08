@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    use Search;
+    
     /**
      * Create a new controller instance.
      *
@@ -162,38 +164,6 @@ class ProductController extends Controller
         $response = [
           'message' => 'Successfuly deleted the product',
           'id' => (int) $id,
-        ];
-
-        return response()->json($response, 200);
-    }
-
-    public function search(Request $request, $query)
-    {
-        // prepare params for searching a document
-        $params = [
-          'index' => $this->index,
-          'type'  => $this->type,
-          'body'  => [
-            'query' => [
-              'multi_match' => [
-                'query' => $query,
-                'fields' => $this->searchableFields,
-              ]
-            ]
-          ]
-        ];
-
-        // searching a document
-        $elasticResponse = $this->elasticsearch->search($params);
-
-        // parse source only
-        $products = $this->getSources($elasticResponse);
-
-        // prepare response
-        $response = [
-          'message' => 'Here is your product search results',
-          'data' => $products,
-          'query' => $query,
         ];
 
         return response()->json($response, 200);
