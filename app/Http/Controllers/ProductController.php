@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     use Search;
-    
+
     /**
      * Create a new controller instance.
      *
@@ -66,7 +66,6 @@ class ProductController extends Controller
         $response = [
           'message' => 'Here is your product',
           'data' => $elasticResponse['_source'],
-          'id' => (int) $id,
         ];
 
         return response()->json($response, 200);
@@ -100,7 +99,6 @@ class ProductController extends Controller
         $response = [
           'message' => 'Successfuly created the product',
           'data' => $product,
-          'id' => $product->id,
         ];
 
         return response()->json($response, 201);
@@ -136,7 +134,6 @@ class ProductController extends Controller
         $response = [
           'message' => 'Successfuly updated the product',
           'data' => $product,
-          'id' => (int) $id,
         ];
 
         return response()->json($response, 200);
