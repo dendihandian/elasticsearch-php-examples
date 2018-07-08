@@ -109,7 +109,7 @@ class ProductController extends Controller
         $input = $request->all();
 
         // update product in database
-        $product = Product::findOrFail($id);
+        $product = $request->get('product');
         $product->name = $input['name'];
         $product->slug = str_slug($input['name']);
         $product->stock = $input['stock'];
@@ -140,10 +140,10 @@ class ProductController extends Controller
         return response()->json($response, 200);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         // get product from id
-        $product = Product::findOrFail($id);
+        $product = $request->get('product');
 
         // prepare params for deleting document
         $params = [

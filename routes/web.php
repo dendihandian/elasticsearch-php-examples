@@ -19,9 +19,12 @@ $router->group(['prefix' => 'api'], function ($router) {
     $router->group(['prefix' => 'products'], function ($router) {
         $router->get('/', 'ProductController@index');
         $router->post('/', 'ProductController@store');
-        $router->get('/{id}', 'ProductController@show');
-        $router->patch('/{id}', 'ProductController@update');
-        $router->delete('/{id}', 'ProductController@destroy');
+
+        $router->group(['prefix' => '/{id}', 'middleware' => 'findProduct'], function ($router) {
+            $router->get('/', 'ProductController@show');
+            $router->patch('/', 'ProductController@update');
+            $router->delete('/', 'ProductController@destroy');
+        });
 
         $router->group(['prefix' => 'search'], function ($router) {
             $router->get('/{query}', 'ProductController@search');
