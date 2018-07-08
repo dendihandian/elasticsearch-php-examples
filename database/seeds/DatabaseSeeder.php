@@ -12,5 +12,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         generate_products(10);
+        generate_contacts(10);
     }
 }

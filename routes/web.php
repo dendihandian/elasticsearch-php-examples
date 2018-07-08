@@ -34,4 +34,23 @@ $router->group(['prefix' => 'api'], function ($router) {
             $router->get('/{query}', 'ProductController@suggestion');
         });
     });
+
+    $router->group(['prefix' => 'contacts'], function ($router) {
+        $router->get('/', 'ContactController@index');
+        $router->post('/', 'ContactController@store');
+
+        $router->group(['prefix' => '/{id}', 'middleware' => 'findContact'], function ($router) {
+            $router->get('/', 'ContactController@show');
+            $router->patch('/', 'ContactController@update');
+            $router->delete('/', 'ContactController@destroy');
+        });
+
+        $router->group(['prefix' => 'search'], function ($router) {
+            $router->get('/{query}', 'ContactController@search');
+        });
+
+        $router->group(['prefix' => 'suggestion'], function ($router) {
+            $router->get('/{query}', 'ContactController@suggestion');
+        });
+    });
 });

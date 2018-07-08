@@ -63,9 +63,11 @@ $app->singleton(
 //    App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
+$app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+    'findProduct' => App\Http\Middleware\FindProduct::class,
+    'findContact' => App\Http\Middleware\FindContact::class,
+]);
 
 /*
 |--------------------------------------------------------------------------

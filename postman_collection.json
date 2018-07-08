@@ -265,7 +265,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"Monster Cookies\",\n  \"stock\": 8,\n  \"price\": 200,\n  \"description\": \"Delicious cookies\"\n}"
+											"raw": "{\n  \"owner_id\": 1,\n  \"first_name\": \"Bruce\",\n  \"middle_name\": null,\n  \"last_name\": \"Wayne\",\n  \"email\": \"bruce@waynecorp.com\",\n  \"phone\": \"88 888888\",\n  \"address\": \"2587 Carson Squares Apt. 194\\nLake Rebeka, DE 10579\"\n}"
 										},
 										"url": {
 											"raw": "{{lumen_server}}/api/contacts",
@@ -317,7 +317,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"name\": \"Butter Cookies\",\n  \"stock\": 7,\n  \"price\": 150,\n  \"description\": \"delicious butter cookies \"\n}"
+											"raw": "{\n  \"owner_id\": 1,\n  \"first_name\": \"Bruce\",\n  \"middle_name\": null,\n  \"last_name\": \"Wayne\",\n  \"email\": \"bruce@waynecorp.com\",\n  \"phone\": \"88 888888\",\n  \"address\": \"2587 Carson Squares Apt. 194\\nLake Rebeka, DE 10579\"\n}"
 										},
 										"url": {
 											"raw": "{{lumen_server}}/api/contacts/1",
@@ -366,36 +366,115 @@
 						}
 					],
 					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Home",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Dendi Handian\",\n  \"email\": \"dendihandian@gmail.com\",\n  \"password\" : \"abcd\"\n}"
+						},
+						"url": {
+							"raw": "{{lumen_server}}",
+							"host": [
+								"{{lumen_server}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "Elasticsearch Requests",
 			"description": "",
-			"item": []
-		},
-		{
-			"name": "Home",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\": \"Dendi Handian\",\n  \"email\": \"dendihandian@gmail.com\",\n  \"password\" : \"abcd\"\n}"
-				},
-				"url": {
-					"raw": "{{lumen_server}}",
-					"host": [
-						"{{lumen_server}}"
+			"item": [
+				{
+					"name": "Elasticsearch Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{elasticsearch_server}}",
+							"host": [
+								"{{elasticsearch_server}}"
+							]
+						},
+						"description": "show the elasticsearch version, cluster name, etc."
+					},
+					"response": [
+						{
+							"id": "f7e99e2a-6955-4b60-8a81-5093b0debf28",
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": false
+									}
+								],
+								"body": {},
+								"url": {
+									"raw": "{{elasticsearch_server}}",
+									"host": [
+										"{{elasticsearch_server}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "content-length",
+									"value": "303",
+									"name": "content-length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "content-type",
+									"value": "application/json; charset=UTF-8",
+									"name": "content-type",
+									"description": "The mime type of this content"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Tue Jan 19 2038 10:14:07 GMT+0700 (WIB)",
+									"httpOnly": true,
+									"domain": "localhost",
+									"path": "/",
+									"secure": false,
+									"value": "s%3Ajm5AkEG8ZIogqn168tSqc3akgeIAR-o2.obBNXWyBvERfdAg9Z3aT7Hgvi%2BrDA0NY62uUYipTK%2FQ",
+									"key": "connect.sid"
+								}
+							],
+							"body": "{\n  \"name\" : \"BroUMwC\",\n  \"cluster_name\" : \"elasticsearch\",\n  \"cluster_uuid\" : \"TvhG2E5DSQKsPdqqgJHGXw\",\n  \"version\" : {\n    \"number\" : \"6.3.0\",\n    \"build_flavor\" : \"default\",\n    \"build_type\" : \"deb\",\n    \"build_hash\" : \"424e937\",\n    \"build_date\" : \"2018-06-11T23:38:03.357887Z\",\n    \"build_snapshot\" : false,\n    \"lucene_version\" : \"7.3.1\",\n    \"minimum_wire_compatibility_version\" : \"5.6.0\",\n    \"minimum_index_compatibility_version\" : \"5.0.0\"\n  },\n  \"tagline\" : \"You Know, for Search\"\n}\n"
+						}
 					]
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
