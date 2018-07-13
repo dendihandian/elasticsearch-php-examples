@@ -12,7 +12,9 @@ if (! function_exists('generate_products')) {
             $products = factory(\App\Models\Product::class, $numberOfProducts)->create();
 
             // create elasticsearch client instance
-            $elasticsearch = ClientBuilder::create()->build();
+            $elasticsearch = ClientBuilder::create()
+              ->setHosts([env('ELASTICSEARCH_HOST')])
+              ->build();
 
             $products->each(function ($product, $key) use ($elasticsearch) {
 
@@ -42,7 +44,9 @@ if (! function_exists('generate_contacts')) {
             $contacts = factory(\App\Models\Contact::class, $numberOfContacts)->create();
 
             // create elasticsearch client instance
-            $elasticsearch = ClientBuilder::create()->build();
+            $elasticsearch = ClientBuilder::create()
+              ->setHosts([env('ELASTICSEARCH_HOST')])
+              ->build();
 
             $contacts->each(function ($contact, $key) use ($elasticsearch) {
 
