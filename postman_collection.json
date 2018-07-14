@@ -468,7 +468,7 @@
 									"response": []
 								},
 								{
-									"name": "Get All Products (DSL)",
+									"name": "Get All Products (Query)",
 									"request": {
 										"method": "POST",
 										"header": [
@@ -507,7 +507,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"id\": 99,\n\t\"name\": \"Monster Battery AA\",\n\t\"slug\": \"monster-battery-aa\",\n\t\"stock\": 14,\n\t\"price\": 170,\n\t\"description\": \"A powerfull AA type battery for your toys\"\n}"
+											"raw": "{\n\t\"id\": 99,\n\t\"name\": \"Monster Battery AA\",\n\t\"slug\": \"monster-battery-aa\",\n\t\"stock\": 14,\n\t\"price\": 170,\n\t\"description\": \"A powerfull AA type battery for your toys\",\n    \"created_at\": \"2018-07-13 08:25:08\",\n    \"updated_at\": \"2018-07-13 08:25:08\"\n}"
 										},
 										"url": {
 											"raw": "{{elasticsearch_server}}/products/default/99",
@@ -565,7 +565,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"doc\": {\n\t\t\"stock\": 28,\n\t\t\"price\": 340\n\t}\n}"
+											"raw": "{\n\t\"doc\": {\n\t\t\"stock\": 28,\n\t\t\"price\": 340,\n        \"updated_at\": \"2018-07-13 09:25:08\"\n\t}\n}"
 										},
 										"url": {
 											"raw": "{{elasticsearch_server}}/products/default/99/_update",
@@ -767,7 +767,7 @@
 					},
 					"response": [
 						{
-							"id": "80ff7b90-4810-41b9-93e5-8b414e348fc2",
+							"id": "c7bc74c0-424d-4e4e-9dfd-b69b8268fe9c",
 							"name": "200 OK",
 							"originalRequest": {
 								"method": "GET",
