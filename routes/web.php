@@ -35,7 +35,7 @@ $router->group(['prefix' => 'api'], function ($router) {
         });
     });
 
-    $router->group(['prefix' => 'contacts'], function ($router) {
+    $router->group(['prefix' => 'contacts', 'middleware' => 'jwt.auth'], function ($router) {
         $router->get('/', 'ContactController@index');
         $router->post('/', 'ContactController@store');
 
@@ -52,5 +52,9 @@ $router->group(['prefix' => 'api'], function ($router) {
         $router->group(['prefix' => 'suggestion'], function ($router) {
             $router->get('/{query}', 'ContactController@suggestion');
         });
+    });
+
+    $router->group(['prefix' => 'auth'], function ($router) {
+        $router->post('login', 'AuthController@login');
     });
 });
