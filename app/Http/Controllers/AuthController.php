@@ -39,6 +39,8 @@ class AuthController extends Controller
             return response()->json(['token_absent' => $e->getMessage()], $e->getStatusCode());
         }
 
-        return response()->json(compact('token'));
+        $user = $this->jwt->user();
+
+        return response()->json(compact('user','token'));
     }
 }
