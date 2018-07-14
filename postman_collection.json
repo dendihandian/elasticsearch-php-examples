@@ -363,6 +363,41 @@
 								}
 							],
 							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Authentication",
+							"description": "",
+							"item": [
+								{
+									"name": "Login",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"eleonore31@example.org\",\n  \"password\": \"secret\"\n}"
+										},
+										"url": {
+											"raw": "{{lumen_server}}/api/auth/login",
+											"host": [
+												"{{lumen_server}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
 						}
 					],
 					"_postman_isSubFolder": true
@@ -397,6 +432,321 @@
 			"description": "",
 			"item": [
 				{
+					"name": "Products",
+					"description": "",
+					"item": [
+						{
+							"name": "CRUD",
+							"description": "",
+							"item": [
+								{
+									"name": "Get All Products",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": { \"match_all\": {} }\r\n}"
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products/_search",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products",
+												"_search"
+											]
+										},
+										"description": "show the elasticsearch version, cluster name, etc."
+									},
+									"response": []
+								},
+								{
+									"name": "Get All Products (DSL)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": { \"match_all\": {} }\r\n}"
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products/_search",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products",
+												"_search"
+											]
+										},
+										"description": "show the elasticsearch version, cluster name, etc."
+									},
+									"response": []
+								},
+								{
+									"name": "Create/Update A Product",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"id\": 99,\n\t\"name\": \"Monster Battery AA\",\n\t\"slug\": \"monster-battery-aa\",\n\t\"stock\": 14,\n\t\"price\": 170,\n\t\"description\": \"A powerfull AA type battery for your toys\"\n}"
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products/default/99",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products",
+												"default",
+												"99"
+											]
+										},
+										"description": "show the elasticsearch version, cluster name, etc."
+									},
+									"response": []
+								},
+								{
+									"name": "Get A Product",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": { \"match_all\": {} }\r\n}"
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products/default/99",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products",
+												"default",
+												"99"
+											]
+										},
+										"description": "show the elasticsearch version, cluster name, etc."
+									},
+									"response": []
+								},
+								{
+									"name": "Update A Product (Partially)",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"doc\": {\n\t\t\"stock\": 28,\n\t\t\"price\": 340\n\t}\n}"
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products/default/99/_update",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products",
+												"default",
+												"99",
+												"_update"
+											]
+										},
+										"description": "show the elasticsearch version, cluster name, etc."
+									},
+									"response": []
+								},
+								{
+									"name": "Delete A Product",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": { \"match_all\": {} }\r\n}"
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products/default/99",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products",
+												"default",
+												"99"
+											]
+										},
+										"description": "show the elasticsearch version, cluster name, etc."
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Index",
+							"description": "",
+							"item": [
+								{
+									"name": "Create Product Index",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Basic ZWxhc3RpYzpkQUNoMG1za3Bxcjcrakc3dDlVIQ=="
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Product Index Info",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"query\": { \"match_all\": {} }\r\n}"
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products"
+											]
+										},
+										"description": "show the elasticsearch version, cluster name, etc."
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Product Index",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Basic ZWxhc3RpYzpkQUNoMG1za3Bxcjcrakc3dDlVIQ=="
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Search",
+							"description": "",
+							"item": [
+								{
+									"name": "Search",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"query\": {\n\t\t\"multi_match\": {\n\t\t\t\"query\": \"nihil\",\n\t\t\t\"fields\": [\"name\", \"slug\", \"description\"]\n\t\t}\n\t}\n}"
+										},
+										"url": {
+											"raw": "{{elasticsearch_server}}/products/_search",
+											"host": [
+												"{{elasticsearch_server}}"
+											],
+											"path": [
+												"products",
+												"_search"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "Elasticsearch Info",
 					"request": {
 						"method": "GET",
@@ -417,7 +767,7 @@
 					},
 					"response": [
 						{
-							"id": "f7e99e2a-6955-4b60-8a81-5093b0debf28",
+							"id": "80ff7b90-4810-41b9-93e5-8b414e348fc2",
 							"name": "200 OK",
 							"originalRequest": {
 								"method": "GET",
