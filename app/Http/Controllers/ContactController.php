@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\JWTAuth;
 
 class ContactController extends Controller
 {
+    /**
+     * @var Tymon\JWTAuth\JWTAuth
+     */
+    protected $jwt;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(JWTAuth $jwt)
     {
         $this->elasticsearch = ClientBuilder::create()
           ->setHosts([env('ELASTICSEARCH_HOST')])
@@ -22,12 +28,16 @@ class ContactController extends Controller
         $this->index = Contact::INDEX;
         $this->type = Contact::TYPE;
         $this->searchableFields = Contact::SEARCHABLE_FIELDS;
+        $this->jwt = $jwt;
     }
 
     public function index(Request $request)
     {
+        // get user from authenticated jwt
+        $user = $this->jwt->user();
+
         // get all contacts
-        $contacts = Contact::all();
+        $contacts = $user->contacts;
 
         // prepare response
         $response = [
@@ -65,10 +75,24 @@ class ContactController extends Controller
 
     public function show(Request $request, $id)
     {
+        // get the contact
+        $contact = $request->get('contact');
+
+        // check if the contact's owner is the current jwt authenticated user
+        if ($contact->owner_id !== $this->jwt->user()->id) {
+            // prepare response
+            $response = [
+              'message' => 'Contact not found',
+              'id' => (int) $id,
+            ];
+
+            return response()->json($response, 404);
+        }
+
         // prepare response
         $response = [
           'message' => 'Here is your contact',
-          'data' => $request->get('contact'),
+          'data' => $contact,
         ];
 
         return response()->json($response, 200);
