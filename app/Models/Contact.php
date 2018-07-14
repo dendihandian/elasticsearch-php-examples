@@ -13,4 +13,9 @@ class Contact extends Model
       'email',
       'address',
     ];
+
+    public function owner()
+    {
+        return $this->belongsTo('App\Models\User', 'owner_id');
+    }
 }

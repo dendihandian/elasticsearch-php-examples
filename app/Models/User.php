@@ -48,4 +48,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return [];
     }
+
+    public function contacts()
+    {
+        return $this->hasMany('App\Models\Contact', 'owner_id');
+    }
 }
