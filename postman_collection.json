@@ -333,7 +333,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"first_name\": \"Bruce\",\n  \"middle_name\": null,\n  \"last_name\": \"Wayne\",\n  \"email\": \"bruce@waynecorp.com\",\n  \"phone\": \"88 888888\",\n  \"address\": \"2587 Carson Squares Apt. 194\\nLake Rebeka, DE 10579\"\n}"
+											"raw": "{\n  \"first_name\": \"Bruce\",\n  \"middle_name\": \"The Batman\",\n  \"last_name\": \"Wayne\",\n  \"email\": \"bruce@waynecorp.com\",\n  \"phone\": \"88 888888\",\n  \"address\": \"2587 Carson Squares Apt. 194\\nLake Rebeka, DE 10579\"\n}"
 										},
 										"url": {
 											"raw": "{{lumen_server}}/api/contacts/1",
@@ -411,6 +411,38 @@
 												"api",
 												"auth",
 												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Logout",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "{{lumen_server}}/api/auth/logout",
+											"host": [
+												"{{lumen_server}}"
+											],
+											"path": [
+												"api",
+												"auth",
+												"logout"
 											]
 										}
 									},
@@ -787,7 +819,7 @@
 					},
 					"response": [
 						{
-							"id": "17e5981b-b551-4757-8785-f029a9ae87b0",
+							"id": "973ee3e8-882a-460b-8aca-b5409f794fbc",
 							"name": "200 OK",
 							"originalRequest": {
 								"method": "GET",
