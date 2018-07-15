@@ -41,6 +41,27 @@ class AuthController extends Controller
 
         $user = $this->jwt->user();
 
-        return response()->json(compact('user','token'));
+        return response()->json([
+          'message' => 'Login Successful',
+          'data' => compact('user','token'),
+        ], 200);
+    }
+
+    public function logout()
+    {
+        try {
+            $this->jwt->invalidate($this->jwt->getToken()->get());
+        } catch (TokenExpiredException $e) {
+            return response()->json(['token_expired'], $e->getStatusCode());
+        } catch (TokenInvalidException $e) {
+            return response()->json(['token_invalid'], $e->getStatusCode());
+        } catch (JWTException $e) {
+            return response()->json(['token_absent' => $e->getMessage()], $e->getStatusCode());
+        }
+
+        return response()->json([
+          'message' => 'Logout Successful',
+          'data' => $this->jwt->getToken(),
+        ], 200);
     }
 }
