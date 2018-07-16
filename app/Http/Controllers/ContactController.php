@@ -33,11 +33,31 @@ class ContactController extends Controller
 
     public function index(Request $request)
     {
-        // get user from authenticated jwt
-        $user = $this->jwt->user();
+        // prepare params for searching a document
+        $params = [
+          'index' => $this->index,
+          'type' => $this->type,
+          'body' => '{
+            "query": {
+              "bool": {
+                "must": {
+                  "match_all": {}
+                },
+                "filter": {
+                  "term": {
+                    "owner_id": ' . $this->jwt->user()->id . '
+                  }
+                }
+              }
+            }
+          }',
+        ];
 
-        // get all contacts
-        $contacts = $user->contacts;
+        // searching a document
+        $elasticResponse = $this->elasticsearch->search($params);
+
+        // parse source only
+        $contacts = $this->getSources($elasticResponse);
 
         // prepare response
         $response = [
@@ -55,7 +75,7 @@ class ContactController extends Controller
 
         // create contact in database
         $contact = new Contact;
-        $contact->owner_id = $input['owner_id']; // get from authenticated user id later ...
+        $contact->owner_id = $this->jwt->user()->id;
         $contact->first_name = $input['first_name'];
         $contact->middle_name = $input['middle_name'];
         $contact->last_name = $input['last_name'];
@@ -63,6 +83,17 @@ class ContactController extends Controller
         $contact->phone = $input['phone'];
         $contact->address = $input['address'];
         $contact->save();
+
+        // prepare params for creating a document
+        $params = [
+          'index' => $this->index,
+          'type' => $this->type,
+          'id' => $contact->id,
+          'body' => $contact->toArray(),
+        ];
+
+        // creating a document
+        $elasticResponse = $this->elasticsearch->index($params);
 
         // prepare response
         $response = [
@@ -105,7 +136,7 @@ class ContactController extends Controller
 
         // create contact in database
         $contact = $request->get('contact');
-        $contact->owner_id = $input['owner_id']; // get from authenticated user id later ...
+        $contact->owner_id = $this->jwt->user()->id;
         $contact->first_name = $input['first_name'];
         $contact->middle_name = $input['middle_name'];
         $contact->last_name = $input['last_name'];
@@ -113,6 +144,19 @@ class ContactController extends Controller
         $contact->phone = $input['phone'];
         $contact->address = $input['address'];
         $contact->save();
+
+        // prepare params for updating document
+        $params = [
+          'index' => $this->index,
+          'type' => $this->type,
+          'id' => $contact->id,
+          'body' => [
+            'doc'=> $contact->toArray(),
+          ]
+        ];
+
+        // update the document
+        $elasticResponse = $this->elasticsearch->update($params);
 
         // prepare response
         $response = [
@@ -127,6 +171,16 @@ class ContactController extends Controller
     {
         // get contact from id
         $contact = $request->get('contact');
+
+        // prepare params for deleting document
+        $params = [
+          'index' => $this->index,
+          'type' => $this->type,
+          'id' => $contact->id,
+        ];
+
+        // delete document
+        $elasticResponse = $this->elasticsearch->delete($params);
 
         // delete contact in database
         $contact->delete();
