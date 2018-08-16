@@ -15,7 +15,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'api'], function ($router) {
+$router->group(['prefix' => 'api', 'middleware' => 'cors'], function ($router) {
     $router->group(['prefix' => 'products'], function ($router) {
         $router->get('/', 'ProductController@index');
         $router->post('/', 'ProductController@store');
