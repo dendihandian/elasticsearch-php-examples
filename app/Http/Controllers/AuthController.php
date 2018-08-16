@@ -40,10 +40,11 @@ class AuthController extends Controller
         }
 
         $user = $this->jwt->user();
+        $tokenExpiration = \Carbon\Carbon::now('Asia/Jakarta')->addHours(2)->timestamp;
 
         return response()->json([
           'message' => 'Login Successful',
-          'data' => compact('user','token'),
+          'data' => compact('user','token', 'tokenExpiration'),
         ], 200);
     }
 
@@ -63,5 +64,14 @@ class AuthController extends Controller
           'message' => 'Logout Successful',
           'data' => $this->jwt->getToken(),
         ], 200);
+    }
+
+    public function authenticatedUser() {
+      return response()->json([
+        'message' => 'user authenticated',
+        'data' => [
+          'user' => $this->jwt->user(),
+        ]
+      ], 200);
     }
 }
