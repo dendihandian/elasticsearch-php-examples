@@ -61,7 +61,7 @@ class ContactController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Here is your contacts',
+          'message' => 'Contact List',
           'data' => $contacts,
         ];
 
@@ -97,7 +97,7 @@ class ContactController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Successfuly updated the contact',
+          'message' => 'Contact Created',
           'data' => $contact,
         ];
 
@@ -113,7 +113,7 @@ class ContactController extends Controller
         if ($contact->owner_id !== $this->jwt->user()->id) {
             // prepare response
             $response = [
-              'message' => 'Contact not found',
+              'message' => 'Contact Not Found',
               'id' => (int) $id,
             ];
 
@@ -122,7 +122,7 @@ class ContactController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Here is your contact',
+          'message' => 'Contact Detail',
           'data' => $contact,
         ];
 
@@ -160,7 +160,7 @@ class ContactController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Successfuly updated the contact',
+          'message' => 'Contact Updated',
           'data' => $contact,
         ];
 
@@ -187,7 +187,7 @@ class ContactController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Successfuly deleted the contact',
+          'message' => 'Contact Deleted',
           'id' => (int) $id,
         ];
 
