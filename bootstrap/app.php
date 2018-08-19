@@ -69,6 +69,7 @@ $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
     'jwt.auth' => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
     'findProduct' => App\Http\Middleware\FindProduct::class,
+    'elasticFindProduct' => App\Http\Middleware\ElasticsearchFindProduct::class,
     'findContact' => App\Http\Middleware\FindContact::class,
     'cors' => \Barryvdh\Cors\HandleCors::class,
 ]);
