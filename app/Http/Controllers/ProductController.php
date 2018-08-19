@@ -43,7 +43,7 @@ class ProductController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Here is your products',
+          'message' => 'Product List',
           'data' => $products,
         ];
 
@@ -64,7 +64,7 @@ class ProductController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Here is your product',
+          'message' => 'Product Detail',
           'data' => $elasticResponse['_source'],
         ];
 
@@ -97,7 +97,7 @@ class ProductController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Successfuly created the product',
+          'message' => 'Product Created',
           'data' => $product,
         ];
 
@@ -132,7 +132,7 @@ class ProductController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Successfuly updated the product',
+          'message' => 'Product Updated',
           'data' => $product,
         ];
 
@@ -159,7 +159,7 @@ class ProductController extends Controller
 
         // prepare response
         $response = [
-          'message' => 'Successfuly deleted the product',
+          'message' => 'Product Deleted',
           'id' => (int) $id,
         ];
 
