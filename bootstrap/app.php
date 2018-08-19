@@ -23,7 +23,7 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 $app->withEloquent();
 
@@ -70,6 +70,7 @@ $app->routeMiddleware([
     'jwt.auth' => Tymon\JWTAuth\Middleware\GetUserFromToken::class,
     'findProduct' => App\Http\Middleware\FindProduct::class,
     'elasticFindProduct' => App\Http\Middleware\ElasticsearchFindProduct::class,
+    'validateProduct' => App\Http\Middleware\ValidateProduct::class,
     'findContact' => App\Http\Middleware\FindContact::class,
     'cors' => \Barryvdh\Cors\HandleCors::class,
 ]);
