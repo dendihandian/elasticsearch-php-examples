@@ -50,22 +50,12 @@ class ProductController extends Controller
         return response()->json($response, 200);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        // prepare params for getting a document
-        $params = [
-          'index' => $this->index,
-          'type' => $this->type,
-          'id' => $id
-        ];
-
-        // get a document
-        $elasticResponse = $this->elasticsearch->get($params);
-
         // prepare response
         $response = [
           'message' => 'Product Detail',
-          'data' => $elasticResponse['_source'],
+          'data' => $request->get('product'),
         ];
 
         return response()->json($response, 200);

@@ -20,10 +20,10 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function ($router) {
         $router->get('/', 'ProductController@index');
         $router->post('/', 'ProductController@store');
 
-        $router->group(['prefix' => '/{id}', 'middleware' => 'findProduct'], function ($router) {
-            $router->get('/', 'ProductController@show');
-            $router->patch('/', 'ProductController@update');
-            $router->delete('/', 'ProductController@destroy');
+        $router->group(['prefix' => '/{id}'], function ($router) {
+            $router->get('/', ['middleware' => 'elasticFindProduct', 'uses' => 'ProductController@show']);
+            $router->patch('/', ['middleware' => 'findProduct', 'uses' => 'ProductController@update']);
+            $router->delete('/', ['middleware' => 'findProduct', 'uses' => 'ProductController@destroy']);
         });
 
         $router->group(['prefix' => 'search'], function ($router) {
