@@ -63,16 +63,17 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        // get all input from request
         $input = $request->all();
 
         // create product in database
-        $product = new Product;
-        $product->name = $input['name'];
-        $product->slug = str_slug($input['name']);
-        $product->stock = $input['stock'];
-        $product->price = $input['price'];
-        $product->description = $input['description'];
-        $product->save();
+        $product = Product::create([
+          'name' => $input['name'],
+          'slug' => str_slug($input['name']),
+          'stock' => $input['stock'],
+          'price' => $input['price'],
+          'description' => $input['description'],
+        ]);
 
         // prepare params for creating a document
         $params = [
