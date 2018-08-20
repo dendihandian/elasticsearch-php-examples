@@ -403,7 +403,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"email\": \"vframi@example.net\",\n  \"password\": \"secret\"\n}"
+									"raw": "{\n  \"email\": \"vframi2@example.net\",\n  \"password\": \"secret\"\n}"
 								},
 								"url": {
 									"raw": "{{lumen_server}}/api/auth/login",
@@ -446,6 +446,34 @@
 										"api",
 										"auth",
 										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"vframi\",\n  \"email\": \"vframi2@example.net\",\n  \"password\": \"secret\"\n}"
+								},
+								"url": {
+									"raw": "{{lumen_server}}/api/auth/register",
+									"host": [
+										"{{lumen_server}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
 									]
 								}
 							},
@@ -848,7 +876,7 @@
 					},
 					"response": [
 						{
-							"id": "7ffa031d-6375-47d3-a043-c5d471c6dbad",
+							"id": "3e7901d0-b8d9-46de-ba23-296de8ef779e",
 							"name": "200 OK",
 							"originalRequest": {
 								"method": "GET",
@@ -929,7 +957,7 @@
 					},
 					"response": [
 						{
-							"id": "c973af4a-8e1e-44f9-adc5-1975b6efe5ea",
+							"id": "93d11d78-ff58-4458-a632-4d23f37e489a",
 							"name": "200 OK",
 							"originalRequest": {
 								"method": "GET",
