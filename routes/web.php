@@ -55,8 +55,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function ($router) {
     });
 
     $router->group(['prefix' => 'auth'], function ($router) {
-        $router->get('user', ['middleware' => 'jwt.auth', 'uses' => 'AuthController@authenticatedUser']);
         $router->post('login', 'AuthController@login');
+        $router->post('register', 'AuthController@register');
         $router->post('logout', ['middleware' => 'jwt.auth', 'uses' => 'AuthController@logout']);
+        $router->get('user', ['middleware' => 'jwt.auth', 'uses' => 'AuthController@authenticatedUser']);
     });
 });

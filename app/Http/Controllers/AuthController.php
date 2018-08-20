@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
@@ -64,6 +66,41 @@ class AuthController extends Controller
           'message' => 'Logout Successful',
           'data' => $this->jwt->getToken(),
         ], 200);
+    }
+
+    public function register(Request $request)
+    {
+        $input = $request->all();
+
+        // validate product
+        $rules = [
+          'username' => 'required|string|min:2|unique:users',
+          'email' => 'required|email|unique:users',
+          'password' => 'required',
+        ];
+
+        $validator = \Validator::make($input, $rules);
+        if ($validator->fails()) {
+            return response()->json([
+              'message' => 'Validation Error',
+              'data' => $validator->errors()
+            ], 400);
+        }
+
+        $user = new User;
+        $user->username = $input['username'];
+        $user->email = $input['email'];
+        $user->password = app('hash')->make($input['password']);
+        $user->save();
+
+        $response = [
+          'message' => 'User Registered',
+          'data' => [
+            'user' => $user,
+          ]
+        ];
+
+        return response()->json($response, 201);
     }
 
     public function authenticatedUser() {
