@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Http\Request;
+use DB;
 
 class ProductController extends Controller
 {
@@ -32,7 +33,13 @@ class ProductController extends Controller
         $params = [
           'index' => $this->index,
           'type' => $this->type,
-          'body' => '{"query" : {"match_all" : {} } }',
+          'body' => '{
+            "query" : {
+              "match_all" : {}
+            },
+            "from" : 0,
+            "size" : 50
+          }',
         ];
 
         // searching a document
@@ -66,25 +73,41 @@ class ProductController extends Controller
         // get all input from request
         $input = $request->all();
 
-        // create product in database
-        $product = Product::create([
-          'name' => $input['name'],
-          'slug' => str_slug($input['name']),
-          'stock' => $input['stock'],
-          'price' => $input['price'],
-          'description' => $input['description'],
-        ]);
+        try {
+            // perform database transaction
+            DB::beginTransaction();
 
-        // prepare params for creating a document
-        $params = [
-          'index' => $this->index,
-          'type' => $this->type,
-          'id' => $product->id,
-          'body' => $product->toArray(),
-        ];
+            // create product in database
+            $product = Product::create([
+              'name' => $input['name'],
+              'slug' => str_slug($input['name']),
+              'stock' => $input['stock'],
+              'price' => $input['price'],
+              'description' => $input['description'],
+            ]);
 
-        // creating a document
-        $elasticResponse = $this->elasticsearch->index($params);
+            // prepare params for creating a document
+            $params = [
+              'index' => $this->index,
+              'type' => $this->type,
+              'id' => $product->id,
+              'body' => $product->toArray(),
+            ];
+
+            // creating a document
+            $elasticResponse = $this->elasticsearch->index($params);
+
+            // commit database transaction
+            DB::commit();
+
+        } catch (\Exception $e) {
+            // rollback database transaction
+            DB::rollback();
+
+            return response()->json([
+              'message' => $e->getMessage(),
+            ], $e->getCode());
+        }
 
         // prepare response
         $response = [
@@ -99,27 +122,43 @@ class ProductController extends Controller
     {
         $input = $request->all();
 
-        // update product in database
-        $product = $request->get('product');
-        $product->name = $input['name'];
-        $product->slug = str_slug($input['name']);
-        $product->stock = $input['stock'];
-        $product->price = $input['price'];
-        $product->description = $input['description'];
-        $product->save();
+        try {
+            // perform database transaction
+            DB::beginTransaction();
 
-        // prepare params for updating document
-        $params = [
-          'index' => $this->index,
-          'type' => $this->type,
-          'id' => $product->id,
-          'body' => [
-            'doc'=> $product->toArray(),
-          ]
-        ];
+            // update product in database
+            $product = $request->get('product');
+            $product->name = $input['name'];
+            $product->slug = str_slug($input['name']);
+            $product->stock = $input['stock'];
+            $product->price = $input['price'];
+            $product->description = $input['description'];
+            $product->save();
 
-        // update the document
-        $elasticResponse = $this->elasticsearch->update($params);
+            // prepare params for updating document
+            $params = [
+              'index' => $this->index,
+              'type' => $this->type,
+              'id' => $product->id,
+              'body' => [
+                'doc'=> $product->toArray(),
+              ]
+            ];
+
+            // update the document
+            $elasticResponse = $this->elasticsearch->update($params);
+
+            // commit database transaction
+            DB::commit();
+
+        } catch (\Exception $e) {
+            // rollback database transaction
+            DB::rollback();
+
+            return response()->json([
+              'message' => $e->getMessage(),
+            ], $e->getCode());
+        }
 
         // prepare response
         $response = [
@@ -142,11 +181,28 @@ class ProductController extends Controller
           'id' => $product->id,
         ];
 
-        // delete document
-        $elasticResponse = $this->elasticsearch->delete($params);
+        try {
+          // perform database transaction
+          DB::beginTransaction();
 
-        // delete product in database
-        $product->delete();
+          // delete document
+          $elasticResponse = $this->elasticsearch->delete($params);
+
+          // delete product in database
+          $product->delete();
+
+          // commit database transaction
+          DB::commit();
+
+        } catch (\Exception $e) {
+            // rollback database transaction
+            DB::rollback();
+
+            return response()->json([
+              'message' => $e->getMessage(),
+            ], $e->getCode());
+        }
+
 
         // prepare response
         $response = [
