@@ -34,11 +34,11 @@ class AuthController extends Controller
                 return response()->json(['user_not_found'], 404);
             }
         } catch (TokenExpiredException $e) {
-            return response()->json(['token_expired'], $e->getStatusCode());
+            return response()->json(['message' => 'Token Expired'], $e->getStatusCode());
         } catch (TokenInvalidException $e) {
-            return response()->json(['token_invalid'], $e->getStatusCode());
+            return response()->json(['message' => 'Token Invalid'], $e->getStatusCode());
         } catch (JWTException $e) {
-            return response()->json(['token_absent' => $e->getMessage()], $e->getStatusCode());
+            return response()->json(['message' => $e->getMessage()], $e->getStatusCode());
         }
 
         $user = $this->jwt->user();
