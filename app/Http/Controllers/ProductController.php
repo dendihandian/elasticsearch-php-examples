@@ -9,7 +9,7 @@ use DB;
 
 class ProductController extends Controller
 {
-    use Search;
+    use Search, Aggregation;
 
     /**
      * Create a new controller instance.

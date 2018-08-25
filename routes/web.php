@@ -33,6 +33,8 @@ $router->group(['prefix' => 'api', 'middleware' => 'cors'], function ($router) {
         $router->group(['prefix' => 'suggestion'], function ($router) {
             $router->get('/{query}', 'ProductController@suggestion');
         });
+
+        $router->get('aggregations', 'ProductController@aggs');
     });
 
     $router->group(['prefix' => 'contacts', 'middleware' => 'jwt.auth'], function ($router) {
